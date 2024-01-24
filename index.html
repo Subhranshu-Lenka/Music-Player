@@ -16,9 +16,71 @@
                     <img src="./images/menu.png">
                 </div>
             </div>
-            hell yeh
+            <div class="main-circle">
+
+            </div>
+
+            hell yeah
+            <audio src="./images/[GMV]-Bad-Boys.mp3" id="song"></audio>
+            <input type="range" value="0" id="progress">
+
+            <div class="lowbar">
+                <div class="circle big-btn">
+                    <img src="./images/bwd.png" alt="">
+                </div>
+                <div class="circle big-btn" id="play-btn">
+                    <img id="play-pause" src="./images/play.png" alt="">
+                </div>
+                <div class="circle big-btn">
+                    <img src="./images/fwd.png" alt="">
+                </div>
+            </div>
+
         </div>
     </div>
+
+    <script>
+        const playBtn = document.getElementById("play-btn");
+        const playPauseBtn = document.getElementById("play-pause");
+        const progressBar = document.getElementById("progress");
+        const song = document.getElementById("song");
+
+        song.onloadedmetadata = function () {
+            progressBar.max = song.duration;
+            progressBar.value = song.currentTime;
+        }
+
+        playBtn.addEventListener("click", () => {
+            playPause();
+        });
+
+        function playPause() {
+            if (playBtn.classList.contains("playing")) {
+                song.pause();
+                playBtn.classList.remove("playing");
+                playPauseBtn.setAttribute("src", "./images/play.png");
+            }
+            else {
+                song.play();
+                playBtn.classList.add("playing");
+                playPauseBtn.setAttribute("src", "./images/pause.png");
+            }
+        }
+
+        if (song.play()) {
+            setInterval(() => {
+                progressBar.value = song.currentTime;
+            }, 100)
+        }
+
+        progressBar.oninput = () => {
+            song.currentTime = progressBar.value;
+            song.play();
+            playBtn.classList.add("playing");
+            playPauseBtn.setAttribute("src", "./images/pause.png");
+        }
+
+    </script>
 </body>
 
 </html>
