@@ -2,12 +2,44 @@ const playBtn = document.getElementById("play-btn");
 const playPauseBtn = document.getElementById("play-pause");
 const progressBar = document.getElementById("progress");
 const song = document.getElementById("song");
+const backBtn = document.getElementById("back-btn");
+const nextBtn = document.getElementById("next-btn");
+const mainImg = document.getElementById("main-img");
+
+const songName = document.querySelector(".song-name");
+
+const songArr = ["song1.mp3", "song3.mp3", "song2.mp3"];
+
+// current Song pointer
+let currSong = 0;
+backBtn.addEventListener("click", () => {
+    currSong = changeSong("back")
+});
+nextBtn.addEventListener("click", () => {
+    currSong = changeSong("next")
+});
+
+// change of song
+function changeSong(action) {
+
+    if (action == "next") {
+        currSong = (currSong + 1) % songArr.length;
+    }
+    if (action == "back") {
+        currSong = (currSong + songArr.length - 1) % songArr.length;
+    }
+    songName.innerHTML = `song ${currSong + 1}`;
+    song.setAttribute("src", `./images/${songArr[currSong]}`);
+    mainImg.setAttribute("src", `./images/image${currSong + 1}.jpg`);
+    console.log(`song has been changed to ${songArr[currSong]}`);
+    return currSong;
+}
 
 // time of the song
 let startTime = document.querySelector(".start-time");
 let endTime = document.querySelector(".end-time");
 
-const totalDuration = song.duration;
+const totalDuration = Number(song.duration);
 const mins = Math.floor(totalDuration / 60);
 const sec = Math.floor(totalDuration % 60);
 
